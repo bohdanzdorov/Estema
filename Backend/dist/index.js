@@ -16,10 +16,7 @@ app.use("/wordPair", wordPair_router_1.wordPairRouter);
 app.get("/", (req, res) => {
     res.send("Hello world!");
 });
-mongoose_1.default.connect(`${process.env.DB_CONNECTION_STRING}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose_1.default.connect(`${process.env.DB_CONNECTION_STRING}`);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

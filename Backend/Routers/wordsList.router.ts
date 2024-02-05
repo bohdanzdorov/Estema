@@ -1,7 +1,10 @@
 import express, {Request, Response, Router} from 'express';
 import { WordsList } from '../Models/wordsList.schema';
+import { add } from '../Controllers/wordsList.controller';
 
 const router: Router= express.Router();
+
+router.post('/addWordsList', add)
 
 router.get('/getWordsLists', (req: Request, res: Response) =>{
     return res.send("/getWordsLists");
