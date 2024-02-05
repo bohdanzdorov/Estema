@@ -1,6 +1,6 @@
 import express, {Request, Response, Router} from 'express';
 import { WordsList } from '../Models/wordsList.schema';
-import { add } from '../Controllers/wordsList.controller';
+import { add, remove } from '../Controllers/wordsList.controller';
 
 const router: Router= express.Router();
 
@@ -10,9 +10,7 @@ router.get('/getWordsLists', (req: Request, res: Response) =>{
     return res.send("/getWordsLists");
 })
 
-router.get('/removeWordsList', (req: Request, res: Response) =>{
-    return res.send("/removeWordsList");
-})
+router.get('/removeWordsList', remove)
 
 router.get('/renameWordsList', (req: Request, res: Response) =>{
     return res.send("/renameWordsList");
