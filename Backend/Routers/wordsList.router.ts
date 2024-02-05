@@ -1,20 +1,16 @@
 import express, {Request, Response, Router} from 'express';
 import { WordsList } from '../Models/wordsList.schema';
-import { add, remove } from '../Controllers/wordsList.controller';
+import { add, remove, getAll, rename} from '../Controllers/wordsList.controller';
 
 const router: Router= express.Router();
 
 router.post('/addWordsList', add)
 
-router.get('/getWordsLists', (req: Request, res: Response) =>{
-    return res.send("/getWordsLists");
-})
+router.get('/getWordsLists', getAll);
 
-router.get('/removeWordsList', remove)
+router.post('/removeWordsList', remove)
 
-router.get('/renameWordsList', (req: Request, res: Response) =>{
-    return res.send("/renameWordsList");
-})
+router.post('/renameWordsList', rename)
 
 router.get('/showWordsList', (req: Request, res: Response) =>{
     return res.send("/showWordsList");

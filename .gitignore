@@ -1,3 +1,5 @@
+
+.gitignore
 /Backend/dist
-/Backend/node_modules
+node_modules
 /Backend/.env

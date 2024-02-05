@@ -1,6 +1,15 @@
 import { error } from "console";
 import { WordsList } from "../Models/wordsList.schema";
 
+export const getAllListsService:Function = async() =>{
+    try{
+        const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
+        return allLists;
+    }catch(err){
+        console.log(error)
+        throw new Error("WL service getting lists error")
+    }
+}
 
 export const addService:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
     try{
@@ -18,7 +27,21 @@ export const addService:Function = async(name: string, toLanguage: string, fromL
         console.log(error)
         throw new Error("WL service creation error")
     }
-};
+}
+
+export const renameListService:Function = async(id: string, newName: string) =>{
+    try{
+        const renameCandidate = await WordsList.findOne({ id: id });
+
+        if (!renameCandidate) {
+            throw new Error("!Cannot find word list with such id!")
+        }
+        const newList = WordsList.updateOne({id: id}, {$set: {name: newName}}).exec()
+        return {id: id, newName: newName}
+    }catch(error){
+        console.log(error)
+    }    
+}
 
 export const removeService:Function  = async(id: string) =>{
     try{
@@ -35,3 +58,4 @@ export const removeService:Function  = async(id: string) =>{
         return new Error("Error while removing word list")
     }
 }
+

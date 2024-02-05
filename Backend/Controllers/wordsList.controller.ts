@@ -1,7 +1,20 @@
 import { RequestHandler } from 'express';
-import { addService, removeService } from "../Services/wordsList.service";
+import { addService, removeService, getAllListsService, renameListService} from "../Services/wordsList.service";
 
-export const getAllLists:RequestHandle = async (req, res, next) => {
+export const rename:RequestHandler = async (req, res, next) => {
+    try{
+        const { id, newName } = req.body;
+        const renamedList = await renameListService(id, newName)
+        return res.status(200).json({
+            success: true,
+            list: renamedList
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const getAll:RequestHandler = async (req, res, next) => {
     try{
         const lists = await getAllListsService();
         return res.status(200).json({
@@ -15,9 +28,7 @@ export const getAllLists:RequestHandle = async (req, res, next) => {
   
 export const add:RequestHandler = async (req, res, next) => {
     try{
-        const name = (req.body as { name:string } ).name;
-        const toLanguage = (req.body as {toLanguage: string}).toLanguage;
-        const fromLanguage = (req.body as {fromLanguage: string}).fromLanguage;
+        const { name, toLanguage, fromLanguage } = req.body;
         const createdList = await addService(name, toLanguage, fromLanguage);
         return res.status(201).json({
             success: true,
