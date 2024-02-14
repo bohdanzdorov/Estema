@@ -1,9 +1,11 @@
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
+dotenv.config();
 import express, {Express, Request, Response} from "express";
+
 import {wordsListRouter} from "./Routers/wordsList.router";
 import {wordPairRouter} from "./Routers/wordPair.router";
 
-require('dotenv').config()
 
 const port: number = Number(process.env.PORT);
 

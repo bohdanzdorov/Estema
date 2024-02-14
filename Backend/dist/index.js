@@ -4,10 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const wordsList_router_1 = require("./Routers/wordsList.router");
 const wordPair_router_1 = require("./Routers/wordPair.router");
-require('dotenv').config();
 const port = Number(process.env.PORT);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
