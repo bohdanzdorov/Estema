@@ -1,15 +1,17 @@
 import express, {Request, Response, Router} from 'express';
-import { add, remove, getAll, rename} from '../Controllers/wordsList.controller';
+import { WordsListController } from '../Controllers/wordsList.controller';
+import { WordsListService } from '../Services/wordsList.service';
 
 const router: Router= express.Router();
+let wordsListController = new WordsListController(new WordsListService);
 
-router.post('/addWordsList', add)
+router.post('/addWordsList', (req: Request, res:Response, next) => wordsListController.add(req, res, next))
 
-router.get('/getWordsLists', getAll);
+router.get('/getWordsLists', (req: Request, res:Response, next) => wordsListController.getAll(req, res, next));
 
-router.post('/removeWordsList', remove)
+router.post('/removeWordsList', (req: Request, res:Response, next) => wordsListController.remove(req, res, next))
 
-router.post('/renameWordsList', rename)
+router.post('/renameWordsList', (req: Request, res:Response, next) => wordsListController.rename(req, res, next))
 
 router.get('/showWordsList', (req: Request, res: Response) =>{
     return res.send("/showWordsList");

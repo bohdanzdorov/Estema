@@ -1,11 +1,17 @@
 import { RequestHandler } from 'express';
-import { translateWordService, addWordPairService, removeWordPairService } from '../Services/wordPair.service';
+import { WordPairService } from '../Services/wordPair.service';
 
+export class WordPairController{
+    constructor(private wordPairService: WordPairService){
+        this.translateWord = this.translateWord.bind(this)
+        this.add = this.add.bind(this)
+        this.remove = this.remove.bind(this)        
+    }
 
-    export const translateWord:RequestHandler = async (req, res, next) => {
+    translateWord:RequestHandler = async (req, res, next) => {
         try{
             const { word } = req.body;
-            const wordsPair = await translateWordService(word)
+            const wordsPair = await this.wordPairService.translateWord(word)
             return res.status(200).json({
                 success: true,
                 wordsPair: wordsPair
@@ -15,10 +21,10 @@ import { translateWordService, addWordPairService, removeWordPairService } from 
         }
     }
 
-    export const addWordPair:RequestHandler = async (req, res, next) =>{
+    add:RequestHandler = async (req, res, next) =>{
         try{
             const {fromWord, toWord, wordsListId} = req.body;
-            const resultPairId = await addWordPairService(fromWord, toWord, wordsListId)
+            const resultPairId = await this.wordPairService.add(fromWord, toWord, wordsListId)
             return res.status(200).json({
                 success: true,
                 wordsPairId: resultPairId
@@ -28,10 +34,10 @@ import { translateWordService, addWordPairService, removeWordPairService } from 
         }
     }
 
-    export const removeWordPair:RequestHandler = async (req, res, next) =>{
+    remove:RequestHandler = async (req, res, next) =>{
         try{
             const {pairId} = req.body;
-            const removePairId = await removeWordPairService(pairId)
+            const removePairId = await this.wordPairService.remove(pairId)
             return res.status(200).json({
                 success: true,
                 wordsPairId: removePairId
@@ -40,6 +46,4 @@ import { translateWordService, addWordPairService, removeWordPairService } from 
             console.log(error)
         }
     }
-
-
-
+}
