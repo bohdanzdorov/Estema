@@ -14,7 +14,6 @@ export const getAllListsService:Function = async() =>{
 export const addService:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
     try{
         const addCandidate = await WordsList.findOne({ name: name });
-
         if (addCandidate) {
           throw new Error("!Duplicate name error!");
         }
@@ -32,7 +31,6 @@ export const addService:Function = async(name: string, toLanguage: string, fromL
 export const renameListService:Function = async(id: string, newName: string) =>{
     try{
         const renameCandidate = await WordsList.findOne({ id: id });
-
         if (!renameCandidate) {
             throw new Error("!Cannot find word list with such id!")
         }
@@ -46,14 +44,13 @@ export const renameListService:Function = async(id: string, newName: string) =>{
 export const removeService:Function  = async(id: string) =>{
     try{
         const removeCandidate = await WordsList.findOne({ id: id });
-
         if (!removeCandidate) {
           throw new Error("!Cannot find word list with such id!")
         }
         await WordsList.deleteOne({ id: id });
 
         return id;
-    }catch(e){
+    }catch(error){
         console.log(error)
         return new Error("Error while removing word list")
     }

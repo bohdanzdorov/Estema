@@ -1,15 +1,11 @@
 import express, {Request, Response, Router} from 'express';
-import { translateWord } from '../Controllers/wordPair.controller';
+import { addWordPair, removeWordPair, translateWord } from '../Controllers/wordPair.controller';
 
 const router: Router= express.Router();
 
-router.get('/addWordPair', (req: Request, res: Response) =>{
-    return res.send("/addWordPair");
-})
+router.post('/addWordPair', addWordPair)
 
-router.get('/removewordsPair', (req: Request, res: Response) =>{
-    return res.send("/removewordsPair");
-})
+router.post('/removeWordPair', removeWordPair)
 
 router.post('/translateWord', translateWord)
 
