@@ -2,10 +2,8 @@ import { error } from "console";
 import { WordsList } from "../Models/wordsList.schema";
 
 export class WordsListService{
-    constructor(){
-
-    }
-    getAllListsService:Function = async() =>{
+    
+    showAllLists:Function = async() =>{
         try{
             const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
             return allLists;
@@ -15,7 +13,7 @@ export class WordsListService{
         }
     }
 
-    addService:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
+    add:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
         try{
             const addCandidate = await WordsList.findOne({ name: name });
             if (addCandidate) {
@@ -32,7 +30,7 @@ export class WordsListService{
         }
     }
 
-    renameListService:Function = async(id: string, newName: string) =>{
+    rename:Function = async(id: string, newName: string) =>{
         try{
             const renameCandidate = await WordsList.findOne({ id: id });
             if (!renameCandidate) {
@@ -45,7 +43,7 @@ export class WordsListService{
         }    
     }
 
-    removeService:Function  = async(id: string) =>{
+    remove:Function  = async(id: string) =>{
         try{
             const removeCandidate = await WordsList.findOne({ id: id });
             if (!removeCandidate) {

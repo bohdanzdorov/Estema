@@ -4,15 +4,15 @@ import { WordsListService } from '../Services/wordsList.service';
 export class WordsListController {
     constructor(private wordsListService: WordsListService) {
         this.add = this.add.bind(this)
-        this.getAll = this.getAll.bind(this)
         this.rename = this.rename.bind(this)
         this.remove = this.remove.bind(this)
+        this.showAllLists = this.showAllLists.bind(this)
     }
 
     add:RequestHandler = async (req, res, next) => {
         try{
             const { name, toLanguage, fromLanguage } = req.body;
-            const createdList = await this.wordsListService.addService(name, toLanguage, fromLanguage);
+            const createdList = await this.wordsListService.add(name, toLanguage, fromLanguage);
             return res.status(201).json({
                 success: true,
                 createdList: createdList
@@ -24,22 +24,10 @@ export class WordsListController {
         }
     }
 
-    getAll:RequestHandler = async (req, res, next) => {
-        try{
-            const lists = await this.wordsListService.getAllListsService();
-            return res.status(200).json({
-                success: true,
-                lists: lists
-            })
-        }catch(error){
-            console.log(error)
-        }
-    }
-
     rename:RequestHandler = async (req, res, next) => {
         try{
             const { id, newName } = req.body;
-            const renamedList = await this.wordsListService.renameListService(id, newName)
+            const renamedList = await this.wordsListService.rename(id, newName)
             return res.status(200).json({
                 success: true,
                 list: renamedList
@@ -52,7 +40,7 @@ export class WordsListController {
     remove:RequestHandler = async (req, res, next) => {
         try{
             const id = (req.body as { id:string } ).id;
-            const removedList = await this.wordsListService.removeService(id);
+            const removedList = await this.wordsListService.remove(id);
             return res.status(201).json({
                 success: true,
                 removedWordListId: removedList
@@ -61,6 +49,18 @@ export class WordsListController {
             console.log(error);
             console.log("Error while removing words list")
             return new Error("WL removing error")
+        }
+    }
+
+    showAllLists:RequestHandler = async (req, res, next) => {
+        try{
+            const lists = await this.wordsListService.showAllLists();
+            return res.status(200).json({
+                success: true,
+                lists: lists
+            })
+        }catch(error){
+            console.log(error)
         }
     }
 }

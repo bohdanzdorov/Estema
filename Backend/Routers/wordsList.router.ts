@@ -7,15 +7,11 @@ let wordsListController = new WordsListController(new WordsListService);
 
 router.post('/addWordsList', (req: Request, res:Response, next) => wordsListController.add(req, res, next))
 
-router.get('/getWordsLists', (req: Request, res:Response, next) => wordsListController.getAll(req, res, next));
+router.get('/showWordsLists', (req: Request, res:Response, next) => wordsListController.showAllLists(req, res, next));
 
-router.post('/removeWordsList', (req: Request, res:Response, next) => wordsListController.remove(req, res, next))
+router.delete('/removeWordsList', (req: Request, res:Response, next) => wordsListController.remove(req, res, next))
 
-router.post('/renameWordsList', (req: Request, res:Response, next) => wordsListController.rename(req, res, next))
-
-router.get('/showWordsList', (req: Request, res: Response) =>{
-    return res.send("/showWordsList");
-})
+router.put('/renameWordsList', (req: Request, res:Response, next) => wordsListController.rename(req, res, next))
 
 router.get('/createQuiz', (req: Request, res: Response) =>{
     return res.send("/createQuiz");
