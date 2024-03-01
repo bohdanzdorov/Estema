@@ -1,9 +1,12 @@
 import express, {Request, Response, Router} from 'express';
 import { WordsListController } from '../Controllers/wordsList.controller';
-import { WordsListService } from '../Services/wordsList.service';
+import { WordsListService} from '../Services/wordsList.service';
+import { WordsListRepository } from '../Repository/wordsList.repository';
 
 const router: Router= express.Router();
-let wordsListController = new WordsListController(new WordsListService);
+
+let wordsListService = new WordsListService(new WordsListRepository)
+let wordsListController = new WordsListController(wordsListService);
 
 router.post('/addWordsList', (req: Request, res:Response, next) => wordsListController.add(req, res, next))
 

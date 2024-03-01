@@ -1,11 +1,15 @@
 import { error } from "console";
-import { WordsList } from "../Models/wordsList.schema";
+import { WordsListRepository } from "../Repository/wordsList.repository";
 
 export class WordsListService{
     
+    constructor(private wordsListRepository: WordsListRepository){
+
+    }
+
     showAllLists:Function = async() =>{
         try{
-            const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
+            const allLists = await this.wordsListRepository.showAllLists();
             return allLists;
         }catch(err){
             console.log(error)
@@ -15,14 +19,13 @@ export class WordsListService{
 
     add:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
         try{
-            const addCandidate = await WordsList.findOne({ name: name });
+            const addCandidate = await this.wordsListRepository.findByName(name);
             if (addCandidate) {
             throw new Error("!Duplicate name error!");
             }
             const id = String(new Date().getTime())
             const pairsCount = 0;
-            const newWordsList = WordsList.build({id, name, pairsCount, toLanguage, fromLanguage});
-            await newWordsList.save();
+            const newWordsList = this.wordsListRepository.add(id, name, pairsCount, toLanguage, fromLanguage)
             return newWordsList;
         }catch(error){
             console.log(error)
@@ -32,11 +35,11 @@ export class WordsListService{
 
     rename:Function = async(id: string, newName: string) =>{
         try{
-            const renameCandidate = await WordsList.findOne({ id: id });
+            const renameCandidate = await this.wordsListRepository.findById(id);
             if (!renameCandidate) {
                 throw new Error("!Cannot find word list with such id!")
             }
-            const newList = WordsList.updateOne({id: id}, {$set: {name: newName}}).exec()
+            const newList = await this.wordsListRepository.updateName(id, newName)
             return {id: id, newName: newName}
         }catch(error){
             console.log(error)
@@ -45,11 +48,11 @@ export class WordsListService{
 
     remove:Function  = async(id: string) =>{
         try{
-            const removeCandidate = await WordsList.findOne({ id: id });
+            const removeCandidate = await this.wordsListRepository.findById(id);
             if (!removeCandidate) {
             throw new Error("!Cannot find word list with such id!")
             }
-            await WordsList.deleteOne({ id: id });
+            this.wordsListRepository.deleteById(id)
             return id;
         }catch(error){
             console.log(error)

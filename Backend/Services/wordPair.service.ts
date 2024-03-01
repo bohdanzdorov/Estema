@@ -1,7 +1,12 @@
 import * as deepl from 'deepl-node';
-import { WordPair } from '../Models/wordPair.schema';
+import { WordPairRepository } from '../Repository/wordPair.repository';
 
 export class WordPairService{
+
+    constructor(private wordPairRepository: WordPairRepository){
+
+    }
+
     translateWord:Function = async(fromWord: string) =>{
         try{
             const translationKey = process.env.TRANSLATION_KEY
@@ -16,11 +21,12 @@ export class WordPairService{
     
     add:Function = async(fromWord:string, toWord:string, wordsListId: string) =>{
         try{
-            const addCandidate = await WordPair.find({fromWord : fromWord})
-            console.log(addCandidate)
+            const addCandidate = await this.wordPairRepository.findByFromWord(fromWord);
+            if(addCandidate != 0){
+                console.log("error duplicate")
+            }
             const id = String(new Date().getTime())
-            const newWordPair = WordPair.build({id, fromWord, toWord, wordsListId})
-            await newWordPair.save();
+            const newWordPair = this.wordPairRepository.addPair(id, fromWord, toWord, wordsListId)
             return newWordPair
         }catch(error){
             console.log(error)
@@ -29,11 +35,11 @@ export class WordPairService{
     
     remove:Function  = async(id: string) =>{
         try{
-            const removeCandidate = await WordPair.findOne({ id: id });
+            const removeCandidate = await this.wordPairRepository.findById(id);
             if (!removeCandidate) {
               throw new Error("!Cannot find word list with such id!")
             }
-            await WordPair.deleteOne({ id: id });
+            await this.wordPairRepository.removeById(id)
             return id;
         }catch(error){
             console.log(error)

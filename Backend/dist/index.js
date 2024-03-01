@@ -14,9 +14,6 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use("/wordsList", wordsList_router_1.wordsListRouter);
 app.use("/wordPair", wordPair_router_1.wordPairRouter);
-app.get("/", (req, res) => {
-    res.send("Hello world!");
-});
 mongoose_1.default.connect(`${process.env.DB_CONNECTION_STRING}`);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
