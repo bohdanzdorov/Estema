@@ -1,7 +1,9 @@
+import { WordPair } from "../Models/wordPair.schema"
 import { WordsList } from "../Models/wordsList.schema"
 
 export class WordsListRepository {
     showAllLists:Function = async() => {
+        throw new Error("Error!!!!")
         const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
         return allLists
     }
@@ -25,5 +27,9 @@ export class WordsListRepository {
     deleteById:Function = async(id: string) => {
         await WordsList.deleteOne({ id: id });
         return id
+    }
+    getWordPairsFromList:Function = async(listId: string) => {
+        const wordPairs = await WordPair.find({wordsListId: listId})
+        return wordPairs
     }
 }

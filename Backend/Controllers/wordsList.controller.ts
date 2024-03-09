@@ -7,6 +7,7 @@ export class WordsListController {
         this.rename = this.rename.bind(this)
         this.remove = this.remove.bind(this)
         this.showAllLists = this.showAllLists.bind(this)
+        this.createQuiz = this.createQuiz.bind(this)
     }
 
     add:RequestHandler = async (req, res, next) => {
@@ -39,7 +40,7 @@ export class WordsListController {
 
     remove:RequestHandler = async (req, res, next) => {
         try{
-            const id = (req.body as { id:string } ).id;
+            const { id } = req.body;
             const removedList = await this.wordsListService.remove(id);
             return res.status(201).json({
                 success: true,
@@ -61,6 +62,19 @@ export class WordsListController {
             })
         }catch(error){
             console.log(error)
+        }
+    }
+
+    createQuiz:RequestHandler = async (req, res, next) => {
+        try{
+            const { listId } = req.body;
+            const quiz = await this.wordsListService.createQuiz(listId)
+            return res.status(200).json({
+                success: true,
+                quiz: quiz
+            })
+        }catch(e){
+            console.log(e)
         }
     }
 }

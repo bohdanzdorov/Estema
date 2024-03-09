@@ -16,9 +16,6 @@ router.delete('/removeWordsList', (req: Request, res:Response, next) => wordsLis
 
 router.put('/renameWordsList', (req: Request, res:Response, next) => wordsListController.rename(req, res, next))
 
-router.get('/createQuiz', (req: Request, res: Response) =>{
-    return res.send("/createQuiz");
-})
-
+router.get('/createQuiz', (req: Request, res: Response, next) =>  wordsListController.createQuiz(req, res, next))
 
 export {router as wordsListRouter} 
