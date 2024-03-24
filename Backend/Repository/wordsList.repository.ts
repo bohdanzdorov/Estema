@@ -1,12 +1,13 @@
+import { AddWordsListDTO } from "../DTO/addWordsListDTO"
 import { WordPair } from "../Models/wordPair.schema"
 import { WordsList } from "../Models/wordsList.schema"
 
 export class WordsListRepository {
     showAllLists:Function = async() => {
-        throw new Error("Error!!!!")
         const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
         return allLists
     }
+
     findById:Function = async(id: string) => {
         const findCandidate = await WordsList.findOne({ id: id });
         return findCandidate;
@@ -15,8 +16,8 @@ export class WordsListRepository {
         const findCandidate = await WordsList.findOne({ name: name });
         return findCandidate;
     }
-    add:Function = async(id:string, name:string, pairsCount:number, toLanguage:string, fromLanguage:string) => {
-        const newWordsList = WordsList.build({id, name, pairsCount, toLanguage, fromLanguage});
+    add:Function = async(addWordsListDTO: AddWordsListDTO) => {
+        const newWordsList = WordsList.build(addWordsListDTO);
         await newWordsList.save();
         return newWordsList
     }
@@ -28,8 +29,8 @@ export class WordsListRepository {
         await WordsList.deleteOne({ id: id });
         return id
     }
-    getWordPairsFromList:Function = async(listId: string) => {
-        const wordPairs = await WordPair.find({wordsListId: listId})
+    getWordPairsFromList:Function = async(wordsListId: string) => {
+        const wordPairs = await WordPair.find({wordsListId: wordsListId})
         return wordPairs
     }
 }

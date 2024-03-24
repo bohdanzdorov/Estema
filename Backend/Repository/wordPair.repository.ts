@@ -1,8 +1,15 @@
+import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
 import { WordPair } from '../Models/wordPair.schema';
 
 export class WordPairRepository{
+
+    findAllByListId:Function = async(wordsListId: string) =>{
+        const resultList = await WordPair.find({ wordsListId: wordsListId })
+        return resultList
+    }
+
     findByFromWord:Function = async(fromWord: string) =>{
-        const findPair = await WordPair.find({fromWord : fromWord})
+        const findPair = await WordPair.find({ fromWord: fromWord })
         return findPair
     }
     
@@ -11,8 +18,8 @@ export class WordPairRepository{
         return findPair
     }
 
-    addPair:Function = async(id:string, fromWord:string, toWord:string, wordsListId:string) => {
-        const newWordPair = WordPair.build({id, fromWord, toWord, wordsListId})
+    addPair:Function = async(addWordPairDTO: AddWordPairDTO) => {
+        const newWordPair = WordPair.build(addWordPairDTO)
         await newWordPair.save();
         return newWordPair
     }

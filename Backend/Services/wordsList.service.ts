@@ -1,12 +1,11 @@
 import { error } from "console";
 import { WordsListRepository } from "../Repository/wordsList.repository";
 import { QuizQuestion } from "../DTO/quiz.entity";
+import { AddWordsListDTO } from "../DTO/addWordsListDTO";
 
 export class WordsListService{
     
-    constructor(private wordsListRepository: WordsListRepository){
-
-    }
+    constructor(private wordsListRepository: WordsListRepository){}
 
     showAllLists:Function = async() =>{
         try{
@@ -26,7 +25,8 @@ export class WordsListService{
             }
             const id = String(new Date().getTime())
             const pairsCount = 0;
-            const newWordsList = this.wordsListRepository.add(id, name, pairsCount, toLanguage, fromLanguage)
+            const addWordsListDTO = new AddWordsListDTO(id, name, pairsCount, toLanguage, fromLanguage)
+            const newWordsList = this.wordsListRepository.add(addWordsListDTO)
             return newWordsList;
         }catch(error){
             console.log(error)
@@ -41,13 +41,14 @@ export class WordsListService{
                 throw new Error("!Cannot find word list with such id!")
             }
             const newList = await this.wordsListRepository.updateName(id, newName)
+            console.log("Rename words lists", newList)
             return {id: id, newName: newName}
         }catch(error){
             console.log(error)
         }    
     }
 
-    remove:Function  = async(id: string) =>{
+    remove:Function = async(id: string) =>{
         try{
             const removeCandidate = await this.wordsListRepository.findById(id);
             if (!removeCandidate) {
@@ -71,6 +72,7 @@ export class WordsListService{
             if(wordListPairs.length < 4){
                 throw new Error("!The list is too small to create a quiz!")
             }
+
             let quiz: QuizQuestion[] = [];
             for(let i = 0; i < wordListPairs.length; i++){
                 quiz[i] = new QuizQuestion(0,"",["", "", "", ""], "")

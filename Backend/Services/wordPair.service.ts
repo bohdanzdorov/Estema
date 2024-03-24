@@ -1,10 +1,21 @@
 import * as deepl from 'deepl-node';
 import { WordPairRepository } from '../Repository/wordPair.repository';
+import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
 
 export class WordPairService{
 
-    constructor(private wordPairRepository: WordPairRepository){
+    constructor(private wordPairRepository: WordPairRepository){}
 
+    getAllPairsByListId:Function = async(wordsListId: string) => {
+        try{
+            const resultList = await this.wordPairRepository.findAllByListId(wordsListId);
+            if(!resultList){
+                throw new Error("No words list with such name")
+            }
+            return resultList
+        }catch(error){
+            console.log(error)
+        }
     }
 
     translateWord:Function = async(fromWord: string) =>{
@@ -26,14 +37,15 @@ export class WordPairService{
                 console.log("error duplicate")
             }
             const id = String(new Date().getTime())
-            const newWordPair = this.wordPairRepository.addPair(id, fromWord, toWord, wordsListId)
+            const addWordPairDTO = new AddWordPairDTO(id, fromWord, toWord, wordsListId)
+            const newWordPair = this.wordPairRepository.addPair(addWordPairDTO)
             return newWordPair
         }catch(error){
             console.log(error)
         }
     }
     
-    remove:Function  = async(id: string) =>{
+    remove:Function = async(id: string) =>{
         try{
             const removeCandidate = await this.wordPairRepository.findById(id);
             if (!removeCandidate) {

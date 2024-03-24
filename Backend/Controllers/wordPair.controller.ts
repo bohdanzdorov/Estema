@@ -6,6 +6,20 @@ export class WordPairController{
         this.translateWord = this.translateWord.bind(this)
         this.add = this.add.bind(this)
         this.remove = this.remove.bind(this)        
+        this.getAllPairsByWordsListId = this.getAllPairsByWordsListId.bind(this)
+    }
+
+    getAllPairsByWordsListId:RequestHandler = async (req, res, next) => {
+        try{
+            const { id } = req.body;
+            const resultList = await this.wordPairService.getAllPairsByListId(id)
+            return res.status(200).json({
+                success: true,
+                resultList: resultList
+            })
+        }catch(error){
+            console.log(error)
+        }
     }
 
     translateWord:RequestHandler = async (req, res, next) => {
