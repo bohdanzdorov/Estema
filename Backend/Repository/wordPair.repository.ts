@@ -5,7 +5,8 @@ import { WordPair } from '../Models/wordPair.schema';
 
 @injectable()
 export class WordPairRepository{
-    findAllByListId:Function = async(wordsListId: string) =>{
+
+    findAllByListId:Function = async(wordsListId: string) => {
         try{
             const resultList = await WordPair.find({ wordsListId: wordsListId })
             return resultList
@@ -13,7 +14,8 @@ export class WordPairRepository{
             throw new DatabaseException('Database exception while finding Word pairs');
         }
     }
-    findInListByFromWord:Function = async(wordsListId: string, fromWord: string) =>{
+
+    findInListByFromWord:Function = async(wordsListId: string, fromWord: string) => {
         try{
             const findPair = await WordPair.findOne({wordsListId: wordsListId, fromWord: fromWord })
             return findPair
@@ -21,6 +23,7 @@ export class WordPairRepository{
             throw new DatabaseException('Database exception while finding Word pair')
         }
     }
+
     findById:Function = async(id: string) => {
         try{
             const findPair = await WordPair.findOne({ id: id });
@@ -29,6 +32,7 @@ export class WordPairRepository{
             throw new DatabaseException('Database exception while finding Word pair')
         }
     }
+
     addPair:Function = async(addWordPairDTO: AddWordPairDTO) => {
         try{
             const newWordPair = WordPair.build(addWordPairDTO)
@@ -38,6 +42,7 @@ export class WordPairRepository{
             throw new DatabaseException('Database exception while adding Word pair')
         }
     }
+    
     removeById:Function = async(id: string) => {
         try{
             await WordPair.deleteOne({ id: id });

@@ -1,8 +1,5 @@
 import express, {Request, Response, Router} from 'express';
 import { WordPairController } from '../Controllers/wordPair.controller';
-import { WordPairService } from '../Services/wordPair.service';
-import { WordPairRepository } from '../Repository/wordPair.repository';
-import { WordsListRepository } from '../Repository/wordsList.repository';
 
 const router: Router= express.Router();
 const wordPairController: WordPairController = new WordPairController()

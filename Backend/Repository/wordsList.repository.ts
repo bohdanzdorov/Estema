@@ -6,6 +6,7 @@ import { WordsList } from "../Models/wordsList.schema"
 
 @injectable()
 export class WordsListRepository {
+
     showAllLists:Function = async() => {
         try{
             const allLists = await WordsList.find({}, 'id name toLanguage fromLanguage')
@@ -14,6 +15,7 @@ export class WordsListRepository {
             throw new DatabaseException('Database exception while finding Word lists')
         }
     }
+
     findWordPairsFromList:Function = async(wordsListId: string) => {
         try{
             const wordPairs = await WordPair.find({wordsListId: wordsListId})
@@ -22,6 +24,7 @@ export class WordsListRepository {
             throw new DatabaseException('Database exception while finding Word pairs by List id')
         }
     }
+
     findById:Function = async(id: string) => {
         try{
             const findCandidate = await WordsList.findOne({ id: id });
@@ -30,10 +33,12 @@ export class WordsListRepository {
             throw new DatabaseException('Database exception while finding Word list')
         }
     }
+
     findByName:Function = async(name: string) => {
         const findCandidate = await WordsList.findOne({ name: name });
         return findCandidate;
     }
+
     add:Function = async(addWordsListDTO: AddWordsListDTO) => {
         try{
             const newWordsList = WordsList.build(addWordsListDTO);
@@ -43,6 +48,7 @@ export class WordsListRepository {
             throw new DatabaseException('Database exception while adding Word lists')
         }        
     }
+
     updateName:Function = async(id: string, newName:string) => {
         try{
             WordsList.updateOne({id: id}, {$set: {name: newName}}).exec()
@@ -51,6 +57,7 @@ export class WordsListRepository {
             throw new DatabaseException('Database exception while updating Word lists')
         }
     }
+    
     deleteById:Function = async(id: string) => {
         try{
             await WordsList.deleteOne({ id: id });

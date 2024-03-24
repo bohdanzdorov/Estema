@@ -7,8 +7,10 @@ import { ApiException } from "../Exceptions/ApiException";
 
 @injectable()
 export class WordsListService{
+
     constructor(@inject('WordsListRepository') private wordsListRepository: WordsListRepository){}
-    showAllLists:Function = async() =>{
+
+    showAllLists:Function = async() => {
         try{
             const allLists = await this.wordsListRepository.showAllLists();
             return allLists;
@@ -18,7 +20,8 @@ export class WordsListService{
             }
         }
     }
-    add:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
+
+    add:Function = async(name: string, toLanguage: string, fromLanguage: string) => {
         try{
             const addCandidate = await this.wordsListRepository.findByName(name);
             if (addCandidate) {
@@ -37,7 +40,8 @@ export class WordsListService{
             }
         }
     }
-    rename:Function = async(id: string, newName: string) =>{
+
+    rename:Function = async(id: string, newName: string) => {
         try{
             const renameCandidate = await this.wordsListRepository.findById(id);
             if (!renameCandidate) {
@@ -55,7 +59,8 @@ export class WordsListService{
             }
         }    
     }
-    remove:Function = async(id: string) =>{
+    
+    remove:Function = async(id: string) => {
         try{
             const removeCandidate = await this.wordsListRepository.findById(id);
             if (!removeCandidate) {

@@ -5,19 +5,11 @@ import { DatabaseException } from '../Exceptions/DatabaseException';
 import { container } from 'tsyringe';
 
 export class WordPairController{
-
     private wordPairService: WordPairService;
 
     constructor() {
         this.wordPairService = container.resolve(WordPairService);
     }
-
-    // constructor(private wordPairService: WordPairService){
-    //     this.translateWord = this.translateWord.bind(this)
-    //     this.add = this.add.bind(this)
-    //     this.remove = this.remove.bind(this)        
-    //     this.getAllPairsByWordsListId = this.getAllPairsByWordsListId.bind(this)
-    // }
 
     getAllPairsByWordsListId:RequestHandler = async (req, res, next) => {
         try{
@@ -57,7 +49,7 @@ export class WordPairController{
         }
     }
 
-    add:RequestHandler = async (req, res, next) =>{
+    add:RequestHandler = async (req, res, next) => {
         try{
             const {fromWord, toWord, wordsListId} = req.body;
             const resultPairId = await this.wordPairService.add(fromWord, toWord, wordsListId)
@@ -76,7 +68,7 @@ export class WordPairController{
         }
     }
 
-    remove:RequestHandler = async (req, res, next) =>{
+    remove:RequestHandler = async (req, res, next) => {
         try{
             const {pairId} = req.body;
             const removePairId = await this.wordPairService.remove(pairId)

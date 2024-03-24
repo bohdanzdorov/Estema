@@ -9,10 +9,9 @@ import { WordsListRepository } from '../Repository/wordsList.repository';
 
 @injectable()
 export class WordPairService{
+
     constructor(@inject('WordPairRepository') private wordPairRepository: WordPairRepository,
                 @inject('WordsListRepository') private wordsListRepository: WordsListRepository){}
-
-    //constructor(private wordPairRepository: WordPairRepository, private wordsListRepository: WordsListRepository){}
 
     getAllPairsByListId:Function = async(wordsListId: string) => {
         try{
@@ -25,7 +24,7 @@ export class WordPairService{
         }
     }
 
-    translateWord:Function = async(fromWord: string) =>{
+    translateWord:Function = async(fromWord: string) => {
         try{
             const translationKey = process.env.TRANSLATION_KEY
             const translator = new deepl.Translator(`${translationKey}`);
@@ -37,7 +36,7 @@ export class WordPairService{
         }
     }
     
-    add:Function = async(fromWord:string, toWord:string, wordsListId: string) =>{
+    add:Function = async(fromWord:string, toWord:string, wordsListId: string) => {
         try{
             const isListExist = await this.wordsListRepository.findById(wordsListId)
             if(!isListExist){
@@ -60,7 +59,7 @@ export class WordPairService{
         }
     }
     
-    remove:Function = async(id: string) =>{
+    remove:Function = async(id: string) => {
         try{
             const removeCandidate = await this.wordPairRepository.findById(id);
             if (!removeCandidate) {
