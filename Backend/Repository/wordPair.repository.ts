@@ -1,8 +1,9 @@
+import { injectable } from 'tsyringe';
 import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
-import { ApiException } from '../Exceptions/ApiException';
 import { DatabaseException } from '../Exceptions/DatabaseException';
 import { WordPair } from '../Models/wordPair.schema';
 
+@injectable()
 export class WordPairRepository{
     findAllByListId:Function = async(wordsListId: string) =>{
         try{

@@ -1,8 +1,10 @@
+import { injectable } from "tsyringe"
 import { AddWordsListDTO } from "../DTO/addWordsListDTO"
 import { DatabaseException } from "../Exceptions/DatabaseException"
 import { WordPair } from "../Models/wordPair.schema"
 import { WordsList } from "../Models/wordsList.schema"
 
+@injectable()
 export class WordsListRepository {
     showAllLists:Function = async() => {
         try{

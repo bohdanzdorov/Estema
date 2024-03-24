@@ -1,25 +1,23 @@
-import { error } from "console";
+import { inject, injectable} from "tsyringe";
 import { WordsListRepository } from "../Repository/wordsList.repository";
 import { QuizQuestion } from "../DTO/quiz.entity";
 import { AddWordsListDTO } from "../DTO/addWordsListDTO";
 import { DatabaseException } from "../Exceptions/DatabaseException";
 import { ApiException } from "../Exceptions/ApiException";
 
+@injectable()
 export class WordsListService{
-    
-    constructor(private wordsListRepository: WordsListRepository){}
-
+    constructor(@inject('WordsListRepository') private wordsListRepository: WordsListRepository){}
     showAllLists:Function = async() =>{
         try{
             const allLists = await this.wordsListRepository.showAllLists();
             return allLists;
-        }catch(err){
+        }catch(error){
             if(error instanceof DatabaseException){
                 throw new DatabaseException(error.message)
             }
         }
     }
-
     add:Function = async(name: string, toLanguage: string, fromLanguage: string) =>{
         try{
             const addCandidate = await this.wordsListRepository.findByName(name);
@@ -39,7 +37,6 @@ export class WordsListService{
             }
         }
     }
-
     rename:Function = async(id: string, newName: string) =>{
         try{
             const renameCandidate = await this.wordsListRepository.findById(id);
@@ -58,7 +55,6 @@ export class WordsListService{
             }
         }    
     }
-
     remove:Function = async(id: string) =>{
         try{
             const removeCandidate = await this.wordsListRepository.findById(id);

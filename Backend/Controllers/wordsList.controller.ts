@@ -2,15 +2,23 @@ import { RequestHandler } from 'express';
 import { WordsListService } from '../Services/wordsList.service';
 import { ApiException } from '../Exceptions/ApiException';
 import { DatabaseException } from '../Exceptions/DatabaseException';
+import { container } from 'tsyringe';
 
 export class WordsListController {
-    constructor(private wordsListService: WordsListService) {
-        this.add = this.add.bind(this)
-        this.rename = this.rename.bind(this)
-        this.remove = this.remove.bind(this)
-        this.showAllLists = this.showAllLists.bind(this)
-        this.createQuiz = this.createQuiz.bind(this)
+
+    private wordsListService: WordsListService;
+
+    constructor() {
+        this.wordsListService = container.resolve(WordsListService);
     }
+
+    // constructor(private wordsListService: WordsListService) {
+    //     this.add = this.add.bind(this)
+    //     this.rename = this.rename.bind(this)
+    //     this.remove = this.remove.bind(this)
+    //     this.showAllLists = this.showAllLists.bind(this)
+    //     this.createQuiz = this.createQuiz.bind(this)
+    // }
 
     add:RequestHandler = async (req, res, next) => {
         try{

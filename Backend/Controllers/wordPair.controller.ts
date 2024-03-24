@@ -2,14 +2,22 @@ import { RequestHandler } from 'express';
 import { WordPairService } from '../Services/wordPair.service';
 import { ApiException } from '../Exceptions/ApiException';
 import { DatabaseException } from '../Exceptions/DatabaseException';
+import { container } from 'tsyringe';
 
 export class WordPairController{
-    constructor(private wordPairService: WordPairService){
-        this.translateWord = this.translateWord.bind(this)
-        this.add = this.add.bind(this)
-        this.remove = this.remove.bind(this)        
-        this.getAllPairsByWordsListId = this.getAllPairsByWordsListId.bind(this)
+
+    private wordPairService: WordPairService;
+
+    constructor() {
+        this.wordPairService = container.resolve(WordPairService);
     }
+
+    // constructor(private wordPairService: WordPairService){
+    //     this.translateWord = this.translateWord.bind(this)
+    //     this.add = this.add.bind(this)
+    //     this.remove = this.remove.bind(this)        
+    //     this.getAllPairsByWordsListId = this.getAllPairsByWordsListId.bind(this)
+    // }
 
     getAllPairsByWordsListId:RequestHandler = async (req, res, next) => {
         try{

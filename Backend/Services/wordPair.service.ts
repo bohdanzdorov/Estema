@@ -1,4 +1,5 @@
 import * as deepl from 'deepl-node';
+import { inject, injectable } from 'tsyringe';
 import { WordPairRepository } from '../Repository/wordPair.repository';
 import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
 import { ApiException } from '../Exceptions/ApiException';
@@ -6,9 +7,12 @@ import { DatabaseException } from '../Exceptions/DatabaseException';
 import { ExternalApiException } from '../Exceptions/ExternalApiException';
 import { WordsListRepository } from '../Repository/wordsList.repository';
 
+@injectable()
 export class WordPairService{
+    constructor(@inject('WordPairRepository') private wordPairRepository: WordPairRepository,
+                @inject('WordsListRepository') private wordsListRepository: WordsListRepository){}
 
-    constructor(private wordPairRepository: WordPairRepository, private wordsListRepository: WordsListRepository){}
+    //constructor(private wordPairRepository: WordPairRepository, private wordsListRepository: WordsListRepository){}
 
     getAllPairsByListId:Function = async(wordsListId: string) => {
         try{

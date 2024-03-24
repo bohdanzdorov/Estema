@@ -1,7 +1,11 @@
+import "reflect-metadata";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+
 dotenv.config();
-import express, {Express, Request, Response} from "express";
+
+import express, {Express} from "express";
+import "./di/container.config"
 
 import {wordsListRouter} from "./Routers/wordsList.router";
 import {wordPairRouter} from "./Routers/wordPair.router";

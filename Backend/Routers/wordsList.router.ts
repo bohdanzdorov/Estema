@@ -4,9 +4,10 @@ import { WordsListService} from '../Services/wordsList.service';
 import { WordsListRepository } from '../Repository/wordsList.repository';
 
 const router: Router= express.Router();
+const wordsListController: WordsListController = new WordsListController()
 
-let wordsListService = new WordsListService(new WordsListRepository)
-let wordsListController = new WordsListController(wordsListService);
+// let wordsListService = new WordsListService(new WordsListRepository)
+// let wordsListController = new WordsListController(wordsListService);
 
 router.get('/showWordsLists', (req: Request, res:Response, next) => wordsListController.showAllLists(req, res, next));
 
