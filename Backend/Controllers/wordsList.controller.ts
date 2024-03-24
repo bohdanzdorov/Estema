@@ -86,10 +86,28 @@ export class WordsListController {
         }
     }
 
-    createQuiz:RequestHandler = async (req, res, next) => {
+    createQuizOneKnown:RequestHandler = async (req, res, next) => {
         try{
             const { listId } = req.body;
-            const quiz = await this.wordsListService.createQuiz(listId)
+            const quiz = await this.wordsListService.createQuizOneKnown(listId)
+            return res.status(200).json({
+                success: true,
+                quiz: quiz
+            })
+        }catch(error){
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
+        }
+    }
+    createQuizOneUnknown:RequestHandler = async (req, res, next) => {
+        try{
+            const { listId } = req.body;
+            const quiz = await this.wordsListService.createQuizOneUnknown(listId)
             return res.status(200).json({
                 success: true,
                 quiz: quiz
