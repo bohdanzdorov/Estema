@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import { WordPairService } from '../Services/wordPair.service';
+import { ApiException } from '../Exceptions/ApiException';
+import { DatabaseException } from '../Exceptions/DatabaseException';
 
 export class WordPairController{
     constructor(private wordPairService: WordPairService){
@@ -18,7 +20,13 @@ export class WordPairController{
                 resultList: resultList
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -31,7 +39,13 @@ export class WordPairController{
                 wordsPair: wordsPair
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -44,7 +58,13 @@ export class WordPairController{
                 wordsPairId: resultPairId
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -57,7 +77,13 @@ export class WordPairController{
                 wordsPairId: removePairId
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 }

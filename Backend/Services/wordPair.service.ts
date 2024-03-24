@@ -1,20 +1,23 @@
 import * as deepl from 'deepl-node';
 import { WordPairRepository } from '../Repository/wordPair.repository';
 import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
+import { ApiException } from '../Exceptions/ApiException';
+import { DatabaseException } from '../Exceptions/DatabaseException';
+import { ExternalApiException } from '../Exceptions/ExternalApiException';
+import { WordsListRepository } from '../Repository/wordsList.repository';
 
 export class WordPairService{
 
-    constructor(private wordPairRepository: WordPairRepository){}
+    constructor(private wordPairRepository: WordPairRepository, private wordsListRepository: WordsListRepository){}
 
     getAllPairsByListId:Function = async(wordsListId: string) => {
         try{
             const resultList = await this.wordPairRepository.findAllByListId(wordsListId);
-            if(!resultList){
-                throw new Error("No words list with such name")
-            }
             return resultList
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                throw new DatabaseException(error.message)
+            }
         }
     }
 
@@ -26,22 +29,30 @@ export class WordPairService{
             const toWord = result.text 
             return toWord;
         }catch(error){
-            console.log(error)
+            throw new ExternalApiException('Exception occured while translating the word')
         }
     }
     
     add:Function = async(fromWord:string, toWord:string, wordsListId: string) =>{
         try{
-            const addCandidate = await this.wordPairRepository.findByFromWord(fromWord);
-            if(addCandidate != 0){
-                console.log("error duplicate")
+            const isListExist = await this.wordsListRepository.findById(wordsListId)
+            if(!isListExist){
+                throw new ApiException("List with such id does not exist", 400)
+            }
+            const addCandidate = await this.wordPairRepository.findInListByFromWord(wordsListId, fromWord);
+            if(addCandidate){
+                throw new ApiException("Such word already exists in this word list", 400)
             }
             const id = String(new Date().getTime())
             const addWordPairDTO = new AddWordPairDTO(id, fromWord, toWord, wordsListId)
             const newWordPair = this.wordPairRepository.addPair(addWordPairDTO)
             return newWordPair
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                throw new DatabaseException(error.message)
+            }else if(error instanceof ApiException){
+                throw new ApiException(error.message, error.statusCode)
+            }
         }
     }
     
@@ -49,13 +60,16 @@ export class WordPairService{
         try{
             const removeCandidate = await this.wordPairRepository.findById(id);
             if (!removeCandidate) {
-              throw new Error("!Cannot find word list with such id!")
+              throw new ApiException("Cannot find word list with such id", 400)
             }
             await this.wordPairRepository.removeById(id)
             return id;
         }catch(error){
-            console.log(error)
-            return new Error("Error while removing word list")
+            if(error instanceof DatabaseException){
+                throw new DatabaseException(error.message)
+            }else if(error instanceof ApiException){
+                throw new ApiException(error.message, error.statusCode)
+            }
         }
     }
 }

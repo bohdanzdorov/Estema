@@ -1,4 +1,4 @@
-export class DatabaseException extends Error {
+export class ExternalApiException extends Error {
     statusCode: number;
 
     constructor(message: string) {

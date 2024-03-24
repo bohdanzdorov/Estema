@@ -2,8 +2,9 @@ import express, {Request, Response, Router} from 'express';
 import { WordPairController } from '../Controllers/wordPair.controller';
 import { WordPairService } from '../Services/wordPair.service';
 import { WordPairRepository } from '../Repository/wordPair.repository';
+import { WordsListRepository } from '../Repository/wordsList.repository';
 
-let wordPairService = new WordPairService(new WordPairRepository)
+let wordPairService = new WordPairService(new WordPairRepository, new WordsListRepository)
 let wordPairController = new WordPairController(wordPairService)
 const router: Router= express.Router();
 

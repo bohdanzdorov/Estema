@@ -1,30 +1,47 @@
 import { AddWordPairDTO } from '../DTO/addWordPairDTO.entity';
+import { ApiException } from '../Exceptions/ApiException';
+import { DatabaseException } from '../Exceptions/DatabaseException';
 import { WordPair } from '../Models/wordPair.schema';
 
 export class WordPairRepository{
-
     findAllByListId:Function = async(wordsListId: string) =>{
-        const resultList = await WordPair.find({ wordsListId: wordsListId })
-        return resultList
+        try{
+            const resultList = await WordPair.find({ wordsListId: wordsListId })
+            return resultList
+        }catch(error){
+            throw new DatabaseException('Database exception while finding Word pairs');
+        }
     }
-
-    findByFromWord:Function = async(fromWord: string) =>{
-        const findPair = await WordPair.find({ fromWord: fromWord })
-        return findPair
+    findInListByFromWord:Function = async(wordsListId: string, fromWord: string) =>{
+        try{
+            const findPair = await WordPair.findOne({wordsListId: wordsListId, fromWord: fromWord })
+            return findPair
+        }catch(error){
+            throw new DatabaseException('Database exception while finding Word pair')
+        }
     }
-    
     findById:Function = async(id: string) => {
-        const findPair = await WordPair.findOne({ id: id });
-        return findPair
+        try{
+            const findPair = await WordPair.findOne({ id: id });
+            return findPair
+        }catch(error){
+            throw new DatabaseException('Database exception while finding Word pair')
+        }
     }
-
     addPair:Function = async(addWordPairDTO: AddWordPairDTO) => {
-        const newWordPair = WordPair.build(addWordPairDTO)
-        await newWordPair.save();
-        return newWordPair
+        try{
+            const newWordPair = WordPair.build(addWordPairDTO)
+            await newWordPair.save();
+            return newWordPair
+        }catch(error){
+            throw new DatabaseException('Database exception while adding Word pair')
+        }
     }
-
     removeById:Function = async(id: string) => {
-        await WordPair.deleteOne({ id: id });
+        try{
+            await WordPair.deleteOne({ id: id });
+        }catch(error){
+            throw new DatabaseException('Database exception while removing Word pair')
+        }
     }
 }

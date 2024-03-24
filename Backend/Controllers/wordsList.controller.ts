@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import { WordsListService } from '../Services/wordsList.service';
+import { ApiException } from '../Exceptions/ApiException';
+import { DatabaseException } from '../Exceptions/DatabaseException';
 
 export class WordsListController {
     constructor(private wordsListService: WordsListService) {
@@ -19,9 +21,13 @@ export class WordsListController {
                 createdList: createdList
             })  
         }catch(error){
-            console.log(error);
-            console.log("Error while creating words list")
-            return new Error("WL creation error")
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -34,7 +40,13 @@ export class WordsListController {
                 list: renamedList
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -47,9 +59,13 @@ export class WordsListController {
                 removedWordListId: removedList
             })  
         }catch(error){
-            console.log(error);
-            console.log("Error while removing words list")
-            return new Error("WL removing error")
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -61,7 +77,13 @@ export class WordsListController {
                 lists: lists
             })
         }catch(error){
-            console.log(error)
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 
@@ -73,8 +95,14 @@ export class WordsListController {
                 success: true,
                 quiz: quiz
             })
-        }catch(e){
-            console.log(e)
+        }catch(error){
+            if(error instanceof DatabaseException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            }else if(error instanceof ApiException){
+                res.status(error.statusCode).json({ success: false, message: error.message });
+            } else {
+                res.status(500).json({ success: false, message: 'Internal server error' });
+            }
         }
     }
 }
