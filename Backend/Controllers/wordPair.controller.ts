@@ -3,6 +3,7 @@ import { WordPairService } from '../Services/wordPair.service';
 import { ApiException } from '../Exceptions/ApiException';
 import { DatabaseException } from '../Exceptions/DatabaseException';
 import { container } from 'tsyringe';
+import { WordTranslationDTO } from '../DTO/wordTranslationDTO.entity';
 
 export class WordPairController{
     private wordPairService: WordPairService;
@@ -13,7 +14,7 @@ export class WordPairController{
 
     getAllPairsByWordsListId:RequestHandler = async (req, res, next) => {
         try{
-            const { id } = req.body;
+            const id:number = parseInt(req.params.id as string) 
             const resultList = await this.wordPairService.getAllPairsByListId(id)
             return res.status(200).json({
                 success: true,
@@ -32,8 +33,9 @@ export class WordPairController{
 
     translateWord:RequestHandler = async (req, res, next) => {
         try{
-            const { word } = req.body;
-            const wordsPair = await this.wordPairService.translateWord(word)
+            const { toLanguage, fromLanguage, wordToTranslate } = req.body;
+            const wordTranslationDTO:WordTranslationDTO= new WordTranslationDTO(toLanguage, fromLanguage, wordToTranslate)
+            const wordsPair = await this.wordPairService.translateWord(wordTranslationDTO)
             return res.status(200).json({
                 success: true,
                 wordsPair: wordsPair

@@ -88,7 +88,7 @@ export class WordsListController {
 
     createQuizOneKnown:RequestHandler = async (req, res, next) => {
         try{
-            const { listId } = req.body;
+            const listId:number = parseInt(req.params.listId as string) 
             const quiz = await this.wordsListService.createQuizOneKnown(listId)
             return res.status(200).json({
                 success: true,
@@ -106,7 +106,7 @@ export class WordsListController {
     }
     createQuizOneUnknown:RequestHandler = async (req, res, next) => {
         try{
-            const { listId } = req.body;
+            const listId:number = parseInt(req.params.listId as string) 
             const quiz = await this.wordsListService.createQuizOneUnknown(listId)
             return res.status(200).json({
                 success: true,

@@ -4,7 +4,7 @@ import { WordPairController } from '../Controllers/wordPair.controller';
 const router: Router= express.Router();
 const wordPairController: WordPairController = new WordPairController()
 
-router.get("/showWordPairsByListId", (req: Request, res:Response, next) => wordPairController.getAllPairsByWordsListId(req, res, next))
+router.get("/showWordPairsByListId/:id", (req: Request, res:Response, next) => wordPairController.getAllPairsByWordsListId(req, res, next))
 
 router.post('/addWordPair', (req: Request, res:Response, next) => wordPairController.add(req, res, next))
 

@@ -6,6 +6,7 @@ import { ApiException } from '../Exceptions/ApiException';
 import { DatabaseException } from '../Exceptions/DatabaseException';
 import { ExternalApiException } from '../Exceptions/ExternalApiException';
 import { WordsListRepository } from '../Repository/wordsList.repository';
+import { WordTranslationDTO } from '../DTO/wordTranslationDTO.entity';
 
 @injectable()
 export class WordPairService{
@@ -24,13 +25,15 @@ export class WordPairService{
         }
     }
 
-    translateWord:Function = async(fromWord: string) => {
+    translateWord:Function = async(wordTranslationDTO: WordTranslationDTO) => {
         try{
             const translationKey = process.env.TRANSLATION_KEY
             const translator = new deepl.Translator(`${translationKey}`);
-            const result = await translator.translateText(fromWord, null, 'en-US');
-            const toWord = result.text 
-            return toWord;
+            const sourceLanguage:deepl.SourceLanguageCode = wordTranslationDTO.fromLanguage as deepl.SourceLanguageCode
+            const targetLanguage:deepl.TargetLanguageCode = wordTranslationDTO.toLanguage as deepl.TargetLanguageCode
+            const result = await translator.translateText(wordTranslationDTO.wordToTranslate, sourceLanguage, targetLanguage);
+            const wordPair = {fromWord: wordTranslationDTO.wordToTranslate, toWord: result.text}
+            return wordPair;
         }catch(error){
             throw new ExternalApiException('Exception occured while translating the word')
         }
@@ -48,8 +51,8 @@ export class WordPairService{
             }
             const id = String(new Date().getTime())
             const addWordPairDTO = new AddWordPairDTO(id, fromWord, toWord, wordsListId)
-            const newWordPair = this.wordPairRepository.addPair(addWordPairDTO)
-            return newWordPair
+            const newWordPairId = this.wordPairRepository.addPair(addWordPairDTO)
+            return newWordPairId
         }catch(error){
             if(error instanceof DatabaseException){
                 throw new DatabaseException(error.message)
@@ -63,7 +66,7 @@ export class WordPairService{
         try{
             const removeCandidate = await this.wordPairRepository.findById(id);
             if (!removeCandidate) {
-              throw new ApiException("Cannot find word list with such id", 400)
+              throw new ApiException("Cannot find word pair with such id", 400)
             }
             await this.wordPairRepository.removeById(id)
             return id;

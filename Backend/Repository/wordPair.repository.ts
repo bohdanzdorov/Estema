@@ -37,7 +37,7 @@ export class WordPairRepository{
         try{
             const newWordPair = WordPair.build(addWordPairDTO)
             await newWordPair.save();
-            return newWordPair
+            return newWordPair.id
         }catch(error){
             throw new DatabaseException('Database exception while adding Word pair')
         }
