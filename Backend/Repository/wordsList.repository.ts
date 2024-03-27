@@ -51,7 +51,7 @@ export class WordsListRepository {
 
     updateName:Function = async(id: string, newName:string) => {
         try{
-            WordsList.updateOne({id: id}, {$set: {name: newName}}).exec()
+            const newList = await WordsList.updateOne({id: id}, {$set: {name: newName}}).exec()
             return newName
         }catch(error){
             throw new DatabaseException('Database exception while updating Word lists')

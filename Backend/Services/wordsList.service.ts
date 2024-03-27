@@ -41,16 +41,14 @@ export class WordsListService{
         }
     }
 
-    rename:Function = async(id: string, newName: string) => {
+    rename:Function = async(wordsListId: string, newName: string) => {
         try{
-            const renameCandidate = await this.wordsListRepository.findById(id);
+            const renameCandidate = await this.wordsListRepository.findById(wordsListId);
             if (!renameCandidate) {
                 throw new ApiException("Word list with such id does not exist", 400)
             }
-            const newList = await this.wordsListRepository.updateName(id, newName)
-            //TODO: check this return statement
-            console.log("Rename words lists", newList)
-            return {id: id, newName: newName}
+            const newList = await this.wordsListRepository.updateName(wordsListId, newName)
+            return {wordsListId: wordsListId, newName: newName}
         }catch(error){
             if(error instanceof DatabaseException){
                 throw new DatabaseException(error.message)

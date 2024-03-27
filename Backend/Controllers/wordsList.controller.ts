@@ -36,7 +36,7 @@ export class WordsListController {
             const renamedList = await this.wordsListService.rename(id, newName)
             return res.status(200).json({
                 success: true,
-                list: renamedList
+                renamedList: renamedList
             })
         }catch(error){
             if(error instanceof DatabaseException){
