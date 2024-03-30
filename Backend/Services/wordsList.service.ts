@@ -29,7 +29,7 @@ export class WordsListService{
             }
             const id = String(new Date().getTime())
             const pairsCount = 0;
-            const addWordsListDTO = new AddWordsListDTO(id, name, pairsCount, toLanguage, fromLanguage)
+            const addWordsListDTO = new AddWordsListDTO(id, name, pairsCount, fromLanguage, toLanguage)
             const newWordsList = this.wordsListRepository.add(addWordsListDTO)
             return newWordsList;
         }catch(error){

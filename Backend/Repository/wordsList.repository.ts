@@ -61,6 +61,7 @@ export class WordsListRepository {
     deleteById:Function = async(id: string) => {
         try{
             await WordsList.deleteOne({ id: id });
+            await WordPair.deleteMany({ wordsListId: id})
             return id
         }catch(error){
             throw new DatabaseException('Database exception while removing Word lists')

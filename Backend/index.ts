@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import express from "express";
 import swaggerUi from 'swagger-ui-express';
+const cors = require("cors");
 import "./di/container.config"
 
 import * as swaggerDocument from './swagger.json';
@@ -19,7 +20,7 @@ const port: number = Number(process.env.PORT);
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 
 const mergedPaths = { ...swaggerDocument.paths, ...wordPairSwagger.paths, ...wordsListSwagger.paths };
 const mergedComponents = { ...swaggerDocument.components, ...wordPairSwagger.components, ...wordsListSwagger.components };

@@ -38,7 +38,7 @@ export class WordPairController{
             const wordsPair = await this.wordPairService.translateWord(wordTranslationDTO)
             return res.status(200).json({
                 success: true,
-                wordsPair: wordsPair
+                wordPair: wordsPair
             })
         }catch(error){
             if(error instanceof DatabaseException){
