@@ -47,6 +47,10 @@ export class WordsListService {
             if (!renameCandidate) {
                 throw new ApiException("Word list with such id does not exist", 400)
             }
+            const dublicateNameCandidate = await this.wordsListRepository.findByName(newName);
+            if (dublicateNameCandidate) {
+                throw new ApiException("Word list with such name already exist", 400)
+            }
             const newList = await this.wordsListRepository.updateName(wordsListId, newName)
             return { wordsListId: wordsListId, newName: newName }
         } catch (error) {
