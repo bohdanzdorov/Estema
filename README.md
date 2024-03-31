@@ -1,26 +1,30 @@
 # Estema
-is a full-stack web application. It was created to help users learn new words in a foreign language. 
+is a **full-stack** web application. It was created to help users learn new words in a foreign language. 
 ## Process
-Users can organize Word pairs into Word lists. Each word list has its unique name, source language, and target language. 
-Chosen Word list:
-- can be populated with Word pairs. The built-in translation function helps users fill in new Word pairs quickly.
-- can be used to generate a quiz out of Word pairs, that are inside the Word list
+Users can organize __Word pairs__ into __Word lists__. Each __Word list__ has its unique __name__, __source language__, and __target language__. 
+Chosen __Word list__:
+- can be populated with __Word pairs__. The **built-in translation** function helps users fill in new __Word pairs__ quickly.
+- can be used to **generate a quiz** out of __Word pairs__, that are inside the Word list
 ## Quiz
 Each quiz question has 4 possible answers, but only one of them is correct.
-Users can choose 3 quiz types:
-1. The questions are words in a familiar language. The user has to choose the correct corresponding word in a foreign language
-2. The questions are words in a foreign language. The user has to choose the correct corresponding word in a familiar language
-3. General quiz. Combines both previous quiz types. The questions are both words in familiar and foreign languages.
+Users can choose 3 __quiz__ types:
+1. __The questions__ are words in a __familiar__ language. The user has to choose the correct __corresponding__ word in a __foreign__ language
+2. __The questions__ are words in a __foreign__ language. The user has to choose the correct __corresponding__ word in a __familiar__ language
+3. General quiz. Combines both previous quiz types. The questions are both words in __familiar__ and __foreign__ languages.
 ## Backend
-The backend part of the application was written in Typescript using the Express framework. Word lists and Word pairs are stored in the MongoDB database.
-All further end-point documentation can be found on /api-docs end-point. It was written using the Swagger.
-To run the server, navigate to the ./Backend folder and run the command: 
+The backend part of the application was written in **Typescript** using the **Express** framework.
+__Word lists__ and __Word pairs__ are stored in the **MongoDB** database.
+
+All further endpoint __documentation__ can be found on **/api-docs** endpoint. It was written using the **Swagger**.
+
+To __run__ the server, navigate to the **./Backend** folder and __run__ the command: 
 ```
 npm run start
 ```
 ## Frontend
-The frontend part was written using the Javascript and React framework. 
-To run the React application, navigate to the ./frontend folder and run the command:
+The frontend part was written using **Javascript** and the **React** framework. 
+
+To __run__ the React application, navigate to the **./frontend** folder and __run__ the command:
 ```
 npm start
 ```
