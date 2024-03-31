@@ -15,7 +15,7 @@ function QuizPage(props) {
     }, [])
 
     function generateQuiz() {
-        let link = `http://localhost:3000/wordsList/createQuizOneKnown/${props.curWordsListInfo.id}`
+        let link = `http://localhost:3000/wordsList/createQuiz?listId=${props.curWordsListInfo.id}&quizType=${props.quizType}`
         fetch(link, {
             method: 'GET',
             mode: 'cors'

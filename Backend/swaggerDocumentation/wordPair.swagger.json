@@ -23,7 +23,8 @@
                   "schema": {
                     "type": "integer"
                   },
-                  "description": "ID of the word list"
+                  "description": "ID of the word list",
+                  "example": "1707153247759"
                 }
               ],
               "responses": {

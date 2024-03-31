@@ -258,149 +258,32 @@
             }
         }
       },
-      "/wordsList/createQuizOneKnown/{listId}": {
+      "/wordsList/createQuiz": {
             "get": {
               "tags": ["Words List"],
-              "summary": "Create a quiz of type 1",
-              "description": "Return an array of questions where there is 1 question word(in a known language) and 4 possible translation. Only 1 of those translations is correct",
+              "summary": "Create a quiz to a specific word list",
+              "description": "Return an array of questions depending on the chosen quiz type.",
               "parameters": [
                 {
                   "name": "listId",
-                  "in": "path",
+                  "in": "query",
                   "required": true,
                   "schema": {
-                    "type": "integer"
+                    "type": "string"
                   },
-                  "description": "ID of the word list"
-                }
-              ],
-              "responses": {
-                "200": {
-                  "description": "Quiz was created successfully",
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/CreateQuizResponse"
-                      },
-                      "example": {
-                        "success": true,
-                        "quiz": [
-                            {
-                                "questionNumber": 1,
-                                "question": "один",
-                                "possibleAnswers": [
-                                    "five",
-                                    "one",
-                                    "two",
-                                    "three"
-                                ],
-                                "correctAnswer": "one"
-                            },
-                            {
-                                "questionNumber": 2,
-                                "question": "три",
-                                "possibleAnswers": [
-                                    "three",
-                                    "hello",
-                                    "two",
-                                    "four"
-                                ],
-                                "correctAnswer": "three"
-                            },
-                            {
-                                "questionNumber": 3,
-                                "question": "два",
-                                "possibleAnswers": [
-                                    "one",
-                                    "hello",
-                                    "two",
-                                    "three"
-                                ],
-                                "correctAnswer": "two"
-                            },
-                            {
-                                "questionNumber": 4,
-                                "question": "пять",
-                                "possibleAnswers": [
-                                    "five",
-                                    "one",
-                                    "three",
-                                    "two"
-                                ],
-                                "correctAnswer": "five"
-                            },
-                            {
-                                "questionNumber": 5,
-                                "question": "чотири",
-                                "possibleAnswers": [
-                                    "two",
-                                    "four",
-                                    "hello",
-                                    "one"
-                                ],
-                                "correctAnswer": "four"
-                            },
-                            {
-                                "questionNumber": 6,
-                                "question": "привіт",
-                                "possibleAnswers": [
-                                    "five",
-                                    "one",
-                                    "hello",
-                                    "two"
-                                ],
-                                "correctAnswer": "hello"
-                            }
-                        ]
-                    }
-                    }
-                  }
+                  "description": "ID of the words list for which the quiz will be generated",
+                  "example": "1711734528884"
                 },
-                "400": {
-                  "description": "Invalid ID supplied",
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/UnsuccessfullResponse"
-                      },
-                      "example": {
-                        "success": false,
-                        "message": "List with such id does not exist"
-                      }
-                    }
-                  }
-                },
-                "500": {
-                  "description": "Internal server error",
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/UnsuccessfullResponse"
-                      },
-                      "example": {
-                        "success": false,
-                        "message": "Internal server error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-      },
-      "/wordsList/createQuizOneUnknown/{listId}": {
-            "get": {
-              "tags": ["Words List"],
-              "summary": "Create a quiz of type 2",
-              "description": "Return an array of questions where there is 1 question word(in an unknown language) and 4 possible translation. Only 1 of those translations is correct",
-              "parameters": [
                 {
-                  "name": "listId",
-                  "in": "path",
+                  "name": "quizType",
+                  "in": "query",
                   "required": true,
                   "schema": {
-                    "type": "integer"
+                    "type": "string",
+                    "enum": ["1", "2", "3"]
                   },
-                  "description": "ID of the word list"
+                  "description": "Type of quiz to generate",
+                  "example": "1"
                 }
               ],
               "responses": {
