@@ -53,7 +53,7 @@ function ListPage(props) {
             }
             let buff = [...wordPairs]
             buff.forEach((pair, index, buff) => {
-                if(pair.id === pairId){
+                if (pair.id === pairId) {
                     buff.splice(index, 1);
                 }
             })
@@ -88,8 +88,8 @@ function ListPage(props) {
                     wordsListId={props.curWordsListInfo.id}
                     showAddPairWindow={showAddPairWindow} />
                 <Button onClick={props.questionMixedType} variant="contained" sx={{ mt: 4, width: "20%" }}>Start general quiz</Button>
-                <Button onClick={props.questionKnownType} variant="contained" sx={{ mt: 2, width: "20%" }}>Start quiz<br/> (question is a familiar word)</Button>
-                <Button onClick={props.questionUnknownType} variant="contained" sx={{ mt: 2, width: "20%" }}>Start quiz<br/> (question is a foreign word)</Button>
+                <Button onClick={props.questionKnownType} variant="contained" sx={{ mt: 2, width: "20%" }}>Start quiz<br /> (question is a familiar word)</Button>
+                <Button onClick={props.questionUnknownType} variant="contained" sx={{ mt: 2, width: "20%" }}>Start quiz<br /> (question is a foreign word)</Button>
             </Stack>
     )
 }

@@ -15,7 +15,7 @@ export default function WordsListItem(props) {
             </Grid>
             <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <IconButton onClick={props.onClickRename} >
-                    <DriveFileRenameOutlineIcon/>
+                    <DriveFileRenameOutlineIcon />
                 </IconButton>
                 <IconButton onClick={props.onClickDelete}>
                     <CloseIcon />

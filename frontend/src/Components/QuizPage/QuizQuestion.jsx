@@ -10,7 +10,7 @@ export default function QuizQuestion(props) {
             setResultColor("error")
         } else {
             setResultColor("success")
-            props.setScore(props.score+1)
+            props.setScore(props.score + 1)
         }
     }
 
@@ -38,8 +38,8 @@ export default function QuizQuestion(props) {
                 }
             </Stack>
             <Stack direction={"row"} spacing={1} marginTop={2}>
-                <Button disabled={resultColor !== ""} onClick={checkAnswer} variant='contained' sx={{ mt: 5, w:"15%" }}>Check</Button>
-                <Button disabled={resultColor === ""} onClick={() => {setValue(""); setResultColor(""); props.setCurQuestion(props.questionNumber);}} variant='contained' sx={{ mt: 5, w:"15%" }}>{resultColor === "" ? "Skip" : "Next"}</Button>
+                <Button disabled={resultColor !== ""} onClick={checkAnswer} variant='contained' sx={{ mt: 5, w: "15%" }}>Check</Button>
+                <Button disabled={resultColor === ""} onClick={() => { setValue(""); setResultColor(""); props.setCurQuestion(props.questionNumber); }} variant='contained' sx={{ mt: 5, w: "15%" }}>{resultColor === "" ? "Skip" : "Next"}</Button>
             </Stack>
         </Stack>
     )

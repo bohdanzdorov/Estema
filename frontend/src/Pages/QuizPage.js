@@ -46,9 +46,9 @@ function QuizPage(props) {
                             setScore={setScore}
                             setCurQuestion={setCurQuestion}
                         /> :
-                    <ResultTab resultScore={score} maxScore={quiz.length} openMainPage={props.openMainPage}/>
+                        <ResultTab resultScore={score} maxScore={quiz.length} openMainPage={props.openMainPage} />
                     :
-                    <CircularProgress/>
+                    <CircularProgress />
             }
 
         </Stack>

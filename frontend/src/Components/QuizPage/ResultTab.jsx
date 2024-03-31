@@ -1,6 +1,6 @@
 import { Button, Stack, Typography } from "@mui/material";
 
-export default function ResultTab(props){
+export default function ResultTab(props) {
     return (
         <Stack width={"100%"} alignItems="center" justifyContent="center">
             <Typography variant="h4">Nice job!</Typography>

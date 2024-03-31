@@ -1,46 +1,7 @@
 import { useState } from "react"
-import {Stack, Button, TextField, MenuItem, Box, Modal} from '@mui/material';
-
-const addListWindowStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-const sourceLanguages = [
-    {
-        value: 'en',
-        label: 'English',
-    },
-    {
-        value: 'uk',
-        label: 'Ukrainian',
-    },
-    {
-        value: 'es',
-        label: 'Spanish',
-    }
-];
-const targetLanguages = [
-    {
-        value: 'en-GB',
-        label: 'English',
-    },
-    {
-        value: 'uk',
-        label: 'Ukrainian',
-    },
-    {
-        value: 'es',
-        label: 'Spanish',
-    }
-];
+import { Stack, Button, TextField, MenuItem, Box, Modal } from '@mui/material';
+import { targetLanguages, sourceLanguages } from "../../config/languages";
+import { addWindowStyle } from "../styles/addWindowStyle";
 
 export default function AddWordsListModal(props) {
     const [addListName, setAddListName] = useState("")
@@ -49,40 +10,40 @@ export default function AddWordsListModal(props) {
 
     function addWordsList() {
         let link = "http://localhost:3000/wordsList/addWordsList"
-    
+
         fetch(link, {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify({
-            name: addListName,
-            toLanguage: addListTargetLang,
-            fromLanguage: addListSourceLang
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({
+                name: addListName,
+                toLanguage: addListTargetLang,
+                fromLanguage: addListSourceLang
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }).then((response) => {
-          return response.json()
+            return response.json()
         }).then(data => {
-          if(!data.success){
-            throw new Error(data.message)
-          }
-          setAddListName("")
-          setAddListSourceLang("")
-          setAddListTargetLang("")
-          props.getWordsLists()//Could be implemented without additional fetching
-          props.handleClose()
+            if (!data.success) {
+                throw new Error(data.message)
+            }
+            setAddListName("")
+            setAddListSourceLang("")
+            setAddListTargetLang("")
+            props.getWordsLists()//Could be implemented without additional fetching
+            props.handleClose()
         }).catch((err) => {
-          console.log(err)
+            console.log(err)
         })
-      }
+    }
 
     return (
         <Modal
             open={props.showAddListWindow}
             onClose={props.handleClose}
         >
-            <Stack sx={addListWindowStyle} spacing={3}>
+            <Stack sx={addWindowStyle} spacing={3}>
                 <TextField
                     value={addListName}
                     onChange={(e) => {
