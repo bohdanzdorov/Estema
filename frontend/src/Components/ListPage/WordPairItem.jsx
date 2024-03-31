@@ -3,7 +3,6 @@ import { Grid, IconButton, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function WordPairItem(props) {
-
     return (
         <Grid container spacing={2} alignItems="center" sx={{ m: 1, pr: 3, pb: 1, width: "50%" }} style={{ backgroundColor: 'aquamarine' }}>
             <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>

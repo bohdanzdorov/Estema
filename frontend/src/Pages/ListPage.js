@@ -17,7 +17,7 @@ function ListPage(props) {
 
     function getWordPairs() {
         setLoadingPairs(true)
-        let link = `http://localhost:3000/wordPair/showWordPairsByListId/${props.curWordsListInfo.id}`
+        let link = `${process.env.REACT_APP_API_URL}/wordPair/showWordPairsByListId/${props.curWordsListInfo.id}`
         fetch(link, {
             method: 'GET',
             mode: 'cors'
@@ -34,8 +34,7 @@ function ListPage(props) {
         })
     }
     function deleteWordPair(pairId) {
-        console.log("Deleting")
-        let link = "http://localhost:3000/wordPair/removeWordPair"
+        let link = `${process.env.REACT_APP_API_URL}/wordPair/removeWordPair`
         fetch(link, {
             method: 'DELETE',
             mode: 'cors',

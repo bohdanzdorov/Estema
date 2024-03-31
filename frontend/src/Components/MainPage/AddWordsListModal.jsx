@@ -4,13 +4,13 @@ import { targetLanguages, sourceLanguages } from "../../config/languages";
 import { addWindowStyle } from "../styles/addWindowStyle";
 
 export default function AddWordsListModal(props) {
+    
     const [addListName, setAddListName] = useState("")
     const [addListSourceLang, setAddListSourceLang] = useState("")
     const [addListTargetLang, setAddListTargetLang] = useState("")
 
     function addWordsList() {
-        let link = "http://localhost:3000/wordsList/addWordsList"
-
+        let link = `${process.env.REACT_APP_API_URL}/wordsList/addWordsList`
         fetch(link, {
             method: 'POST',
             mode: 'cors',

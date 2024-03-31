@@ -3,11 +3,12 @@ import { Stack, Button, TextField, Box, Modal } from "@mui/material"
 import { addWindowStyle } from "../styles/addWindowStyle";
 
 export default function AddPairModal(props) {
+  
   const [sourceWord, setSourceWord] = useState("")
   const [targetWord, setTargetWord] = useState("")
 
   function translateSourceWord() {
-    let link = "http://localhost:3000/wordPair/translateWord"
+    let link = `${process.env.REACT_APP_API_URL}/wordPair/translateWord`
     fetch(link, {
       method: 'POST',
       mode: 'cors',
@@ -32,7 +33,7 @@ export default function AddPairModal(props) {
   }
 
   function addPair() {
-    let link = "http://localhost:3000/wordPair/addWordPair"
+    let link = `${process.env.REACT_APP_API_URL}/wordPair/addWordPair`
     fetch(link, {
       method: 'POST',
       mode: 'cors',

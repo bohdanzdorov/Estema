@@ -5,7 +5,7 @@ import ResultTab from "../Components/QuizPage/ResultTab"
 import QuizQuestion from "../Components/QuizPage/QuizQuestion"
 
 function QuizPage(props) {
-
+    
     const [quiz, setQuiz] = useState([])
     const [curQuestion, setCurQuestion] = useState(0)
     const [score, setScore] = useState(0)
@@ -15,7 +15,7 @@ function QuizPage(props) {
     }, [])
 
     function generateQuiz() {
-        let link = `http://localhost:3000/wordsList/createQuiz?listId=${props.curWordsListInfo.id}&quizType=${props.quizType}`
+        let link = `${process.env.REACT_APP_API_URL}/wordsList/createQuiz?listId=${props.curWordsListInfo.id}&quizType=${props.quizType}`
         fetch(link, {
             method: 'GET',
             mode: 'cors'
@@ -50,7 +50,6 @@ function QuizPage(props) {
                     :
                     <CircularProgress />
             }
-
         </Stack>
     )
 }

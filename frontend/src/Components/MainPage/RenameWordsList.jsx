@@ -3,11 +3,11 @@ import { Stack, Button, TextField, Modal } from '@mui/material';
 import { addWindowStyle } from "../styles/addWindowStyle";
 
 export default function RenameWordsList(props) {
+  
   const [newName, setNewName] = useState("")
 
   function renameWordsList() {
-    let link = "http://localhost:3000/wordsList/renameWordsList"
-
+    let link = `${process.env.REACT_APP_API_URL}/wordsList/renameWordsList`
     fetch(link, {
       method: 'PUT',
       mode: 'cors',

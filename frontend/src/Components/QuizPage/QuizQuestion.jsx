@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 
 export default function QuizQuestion(props) {
+    
     const [value, setValue] = useState("")
     const [resultColor, setResultColor] = useState("")
 

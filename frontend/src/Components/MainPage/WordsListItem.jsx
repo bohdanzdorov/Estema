@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 export default function WordsListItem(props) {
-
     return (
         <Grid container spacing={2} alignItems="center" sx={{ m: 1, ml: 5, pr: 3, pb: 1, width: "90%" }} style={{ backgroundColor: 'aquamarine' }}>
             <Grid item xs={6} onClick={props.onClickChoose}>

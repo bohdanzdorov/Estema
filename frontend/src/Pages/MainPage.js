@@ -6,9 +6,8 @@ import AddWordsListModal from "../Components/MainPage/AddWordsListModal";
 import RenameWordsList from "../Components/MainPage/RenameWordsList";
 
 function MainPage(props) {
-
+  
   const [listsLoading, setListsLoading] = useState(false)
-
   const [wordsLists, setWordsLists] = useState([])
   const [showAddListWindow, setShowAddListWindow] = useState(false)
   const handleAddWindowClose = () => setShowAddListWindow(false);
@@ -23,12 +22,11 @@ function MainPage(props) {
 
   function getWordsLists() {
     setListsLoading(true)
-    let link = `http://localhost:3000/wordsList/showWordsLists`
+    let link = `${process.env.REACT_APP_API_URL}/wordsList/showWordsLists`
     fetch(link, {
       method: 'GET',
       mode: 'cors'
     }).then((response) => {
-      console.log(response)
       return response.json()
     }).then(data => {
       if (!data.success) {
@@ -39,11 +37,10 @@ function MainPage(props) {
     }).catch((err) => {
       console.log(err)
     })
-
   }
 
   function deleteWordsList(wordsListId) {
-    let link = "http://localhost:3000/wordsList/removeWordsList"
+    let link = `${process.env.REACT_APP_API_URL}/wordsList/removeWordsList`
     fetch(link, {
       method: 'DELETE',
       mode: 'cors',
