@@ -15,22 +15,22 @@ export class WordsListController {
     add: RequestHandler = async (req, res, next) => {
         try {
             const { name, toLanguage, fromLanguage } = req.body;
-            if(!toLanguage){
+            if (!toLanguage) {
                 throw new ApiException("No target language provided", 400)
             }
-            if(toLanguage.length > 6){
+            if (toLanguage.length > 6) {
                 throw new ApiException("Length of target language is too big", 400)
             }
-            if(!fromLanguage){
+            if (!fromLanguage) {
                 throw new ApiException("No source language provided", 400)
             }
-            if(fromLanguage.length > 6){
+            if (fromLanguage.length > 6) {
                 throw new ApiException("Length of source language is too big", 400)
             }
-            if(!name){
+            if (!name) {
                 throw new ApiException("No word list name provided", 400)
             }
-            if(name.length > 99){
+            if (name.length > 99) {
                 throw new ApiException("Word list name is too long", 400)
             }
             const createdList = await this.wordsListService.add(name, toLanguage, fromLanguage);
@@ -52,13 +52,13 @@ export class WordsListController {
     rename: RequestHandler = async (req, res, next) => {
         try {
             const { id, newName } = req.body;
-            if(!id){
+            if (!id) {
                 throw new ApiException("No word list ID provided", 400)
             }
-            if(!newName){
+            if (!newName) {
                 throw new ApiException("No new word list name provided", 400)
             }
-            if(newName > 99){
+            if (newName > 99) {
                 throw new ApiException("New word list name is too long", 400)
             }
             const renamedList = await this.wordsListService.rename(id, newName)
@@ -80,7 +80,7 @@ export class WordsListController {
     remove: RequestHandler = async (req, res, next) => {
         try {
             const { id } = req.body;
-            if(!id){
+            if (!id) {
                 throw new ApiException("No word list ID provided", 400)
             }
             const removedList = await this.wordsListService.remove(id);
@@ -118,25 +118,25 @@ export class WordsListController {
     createQuiz: RequestHandler = async (req, res, next) => {
         try {
             const { listId, quizType } = req.query
-            if(!listId){
+            if (!listId) {
                 throw new ApiException("No word list ID provided", 400)
             }
-            let quiz:QuizQuestion[]
+            let quiz: QuizQuestion[]
             if (Number(quizType) == 1)
                 quiz = await this.wordsListService.createQuizOneKnown(listId)
-            else if(Number(quizType) == 2)
+            else if (Number(quizType) == 2)
                 quiz = await this.wordsListService.createQuizOneUnknown(listId)
-            else if(Number(quizType) == 3){
+            else if (Number(quizType) == 3) {
                 quiz = []
                 const quizBuff1 = await this.wordsListService.createQuizOneKnown(listId)
                 const quizBuff2 = await this.wordsListService.createQuizOneUnknown(listId)
-                for(let i = 0; i < quizBuff1.length; i++){
-                    quizBuff1[i].questionNumber = i*2+1
+                for (let i = 0; i < quizBuff1.length; i++) {
+                    quizBuff1[i].questionNumber = i * 2 + 1
                     quiz.push(quizBuff1[i])
-                    quizBuff2[i].questionNumber = i*2+2
+                    quizBuff2[i].questionNumber = i * 2 + 2
                     quiz.push(quizBuff2[i])
                 }
-            }else
+            } else
                 throw new ApiException("Invalid quiz type", 400)
             return res.status(200).json({
                 success: true,

@@ -40,7 +40,7 @@ const wordsListSchema = new mongoose.Schema({
     fromLanguage: {
         type: String,
         required: true
-    }    
+    }
 })
 
 wordsListSchema.statics.build = (attr: IWordsList) => {
@@ -49,4 +49,4 @@ wordsListSchema.statics.build = (attr: IWordsList) => {
 
 const WordsList = mongoose.model<WordsListDoc, wordsListModelInterface>("WordsLists", wordsListSchema)
 
-export {WordsList}
+export { WordsList }

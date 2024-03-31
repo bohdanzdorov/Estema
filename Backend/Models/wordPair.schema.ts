@@ -34,7 +34,7 @@ const wordPairSchema = new mongoose.Schema({
     wordsListId: {
         type: String,
         required: true
-    }    
+    }
 })
 
 wordPairSchema.statics.build = (attr: IWordPair) => {
@@ -43,4 +43,4 @@ wordPairSchema.statics.build = (attr: IWordPair) => {
 
 const WordPair = mongoose.model<WordPairDoc, wordPairModelInterface>("WordPairs", wordPairSchema)
 
-export {WordPair}
+export { WordPair }

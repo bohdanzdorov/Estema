@@ -8,8 +8,8 @@ import "./di/container.config"
 
 import * as swaggerDocument from './swagger.json';
 
-import {wordsListRouter} from "./Routers/wordsList.router";
-import {wordPairRouter} from "./Routers/wordPair.router";
+import { wordsListRouter } from "./Routers/wordsList.router";
+import { wordPairRouter } from "./Routers/wordPair.router";
 
 dotenv.config();
 
@@ -27,6 +27,6 @@ app.use("/wordPair", wordPairRouter);
 
 mongoose.connect(`${process.env.DB_CONNECTION_STRING}`);
 
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
