@@ -1,14 +1,996 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "title": "Language Memory Game",
-      "version": "1.0.0"
-    },
-    "servers": [
-      {
-        "url": "http://localhost:3000"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Language Memory Game",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/wordPair/showWordPairsByListId/{id}": {
+      "get": {
+        "tags": [
+          "Word Pairs"
+        ],
+        "summary": "Get all word pairs by list ID",
+        "description": "Retrieve all word pairs from the chosen list",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the word list",
+            "example": "1707153247759"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All word pairs were found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WordPairListResponse"
+                },
+                "example": {
+                  "success": true,
+                  "resultList": [
+                    {
+                      "id": "1711463501019",
+                      "fromWord": "hello",
+                      "toWord": "привіт",
+                      "wordsListId": "1707153247759"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Invalid Word list ID"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
       }
-    ],
-    "paths": {},
-    "components": {}
+    },
+    "/wordPair/addWordPair": {
+      "post": {
+        "tags": [
+          "Word Pairs"
+        ],
+        "summary": "Add a new word pair",
+        "description": "Add a new word pair to a chosen words list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWordPairRequest"
+              },
+              "example": {
+                "fromWord": "hello",
+                "toWord": "привіт",
+                "wordsListId": "1707153247759"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Word pair added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddWordPairResponse"
+                },
+                "example": {
+                  "success": true,
+                  "wordsPairId": "1711463501019"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "List with such id does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordPair/removeWordPair": {
+      "delete": {
+        "tags": [
+          "Word Pairs"
+        ],
+        "summary": "Remove a word pair",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveWordPairRequest"
+              },
+              "example": {
+                "pairId": "1711463501019"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Word pair removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveWordPairResponse"
+                },
+                "example": {
+                  "success": true,
+                  "wordsPairId": "1711463501019"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Cannot find word pair with such id"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordPair/translateWord": {
+      "post": {
+        "tags": [
+          "Word Pairs"
+        ],
+        "summary": "Translate a word",
+        "description": "Translate a word from a chosen language to the other chosen language using DeepLTranslator API",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslateWordRequest"
+              },
+              "example": {
+                "toLanguage": "en-GB",
+                "fromLanguage": "uk",
+                "wordToTranslate": "чотири"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Translation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateWordResponse"
+                },
+                "example": {
+                  "success": true,
+                  "wordsPair": {
+                    "fromWord": "чотири",
+                    "toWord": "four"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "No target language provided"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Exception occured while translating the word"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordsList/showWordsLists": {
+      "get": {
+        "tags": [
+          "Words List"
+        ],
+        "summary": "Get all available words lists",
+        "description": "Get information about all words list , that are store in the database",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All word lists were found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WordsListResponse"
+                },
+                "example": {
+                  "success": true,
+                  "lists": [
+                    {
+                      "_id": "65bfba534ac993ef3b083214",
+                      "id": "12",
+                      "name": "sdfdsf",
+                      "toLanguage": "DE",
+                      "fromLanguage": "DD"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordsList/addWordsList": {
+      "post": {
+        "tags": [
+          "Words List"
+        ],
+        "summary": "Add a new words list",
+        "description": "Add a new words list to a database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWordsListRequest"
+              },
+              "example": {
+                "name": "New words from Chapter 1",
+                "toLanguage": "uk",
+                "fromLanguage": "en-GB"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Words list added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddWordsListResponse"
+                },
+                "example": {
+                  "success": true,
+                  "createdList": {
+                    "id": "1711544346178",
+                    "name": "New words from Chapter 1",
+                    "pairsCount": 0,
+                    "toLanguage": "en-GB",
+                    "fromLanguage": "uk"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Word list with such name already exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordsList/removeWordsList": {
+      "delete": {
+        "tags": [
+          "Words List"
+        ],
+        "summary": "Remove a words list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveWordsListRequest"
+              },
+              "example": {
+                "id": "1711463501019"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Words list removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveWordsListResponse"
+                },
+                "example": {
+                  "success": true,
+                  "removedWordListId": "1711463501019"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Word list with such id does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordsList/renameWordsList": {
+      "put": {
+        "tags": [
+          "Words List"
+        ],
+        "summary": "Rename a words list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameWordsListRequest"
+              },
+              "example": {
+                "id": "1707153247759",
+                "newName": "test"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Words list renamed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenameWordsListResponse"
+                },
+                "example": {
+                  "success": true,
+                  "renamedList": {
+                    "wordsListId": "1707153247759",
+                    "newName": "test"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Word list with such id does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wordsList/createQuiz": {
+      "get": {
+        "tags": [
+          "Words List"
+        ],
+        "summary": "Create a quiz to a specific word list",
+        "description": "Return an array of questions depending on the chosen quiz type.",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the words list for which the quiz will be generated",
+            "example": "1711734528884"
+          },
+          {
+            "name": "quizType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "description": "Type of quiz to generate",
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quiz was created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuizResponse"
+                },
+                "example": {
+                  "success": true,
+                  "quiz": [
+                    {
+                      "questionNumber": 1,
+                      "question": "five",
+                      "possibleAnswers": [
+                        "два",
+                        "один",
+                        "пять",
+                        "три"
+                      ],
+                      "correctAnswer": "пять"
+                    },
+                    {
+                      "questionNumber": 2,
+                      "question": "three",
+                      "possibleAnswers": [
+                        "привіт",
+                        "три",
+                        "один",
+                        "чотири"
+                      ],
+                      "correctAnswer": "три"
+                    },
+                    {
+                      "questionNumber": 3,
+                      "question": "two",
+                      "possibleAnswers": [
+                        "привіт",
+                        "два",
+                        "пять",
+                        "один"
+                      ],
+                      "correctAnswer": "два"
+                    },
+                    {
+                      "questionNumber": 4,
+                      "question": "four",
+                      "possibleAnswers": [
+                        "чотири",
+                        "один",
+                        "три",
+                        "пять"
+                      ],
+                      "correctAnswer": "чотири"
+                    },
+                    {
+                      "questionNumber": 5,
+                      "question": "hello",
+                      "possibleAnswers": [
+                        "чотири",
+                        "пять",
+                        "два",
+                        "привіт"
+                      ],
+                      "correctAnswer": "привіт"
+                    },
+                    {
+                      "questionNumber": 6,
+                      "question": "one",
+                      "possibleAnswers": [
+                        "один",
+                        "два",
+                        "привіт",
+                        "чотири"
+                      ],
+                      "correctAnswer": "один"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect user input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "List with such id does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsuccessfullResponse"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UnsuccessfullResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "WordPairListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WordPair"
+            }
+          }
+        }
+      },
+      "WordPair": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fromWord": {
+            "type": "string"
+          },
+          "toWord": {
+            "type": "string"
+          },
+          "wordsListId": {
+            "type": "string"
+          }
+        }
+      },
+      "AddWordPairRequest": {
+        "type": "object",
+        "properties": {
+          "fromWord": {
+            "type": "string"
+          },
+          "toWord": {
+            "type": "string"
+          },
+          "wordsListId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fromWord",
+          "toWord",
+          "wordsListId"
+        ]
+      },
+      "AddWordPairResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "wordsPairId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "wordsPairId"
+        ]
+      },
+      "RemoveWordPairRequest": {
+        "type": "object",
+        "properties": {
+          "pairId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pairId"
+        ]
+      },
+      "RemoveWordPairResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "wordsPairId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "wordsPairId"
+        ]
+      },
+      "TranslateWordRequest": {
+        "type": "object",
+        "properties": {
+          "toLanguage": {
+            "type": "string"
+          },
+          "fromLanguage": {
+            "type": "string"
+          },
+          "wordToTranslate": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "toLanguage",
+          "fromLanguage",
+          "wordToTranslate"
+        ]
+      },
+      "TranslateWordResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "wordsPair": {
+            "type": "object",
+            "properties": {
+              "fromWord": {
+                "type": "string"
+              },
+              "toWord": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "success",
+          "wordsPair"
+        ]
+      },
+      "WordsList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "toLanguage": {
+            "type": "string"
+          },
+          "fromLanguage": {
+            "type": "string"
+          }
+        }
+      },
+      "WordsListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "resultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WordsList"
+            }
+          }
+        }
+      },
+      "AddWordsListRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "toLanguage": {
+            "type": "string"
+          },
+          "fromLanguage": {
+            "type": "string"
+          }
+        }
+      },
+      "AddWordsListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "createdList": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "pairsCount": {
+                "type": "number"
+              },
+              "toLanguage": {
+                "type": "string"
+              },
+              "fromLanguage": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "RemoveWordsListRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "RemoveWordsListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "string"
+          },
+          "removedWordListId": {
+            "type": "string"
+          }
+        }
+      },
+      "RenameWordsListRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "newName": {
+            "type": "string"
+          }
+        }
+      },
+      "RenameWordsListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "string"
+          },
+          "renamedList": {
+            "type": "object",
+            "properties": {
+              "wordsListId": {
+                "type": "string"
+              },
+              "newName": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "CreateQuizResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "quiz": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuizItem"
+            }
+          }
+        }
+      },
+      "QuizItem": {
+        "type": "object",
+        "properties": {
+          "questionNumber": {
+            "type": "integer"
+          },
+          "question": {
+            "type": "string"
+          },
+          "posibleAnswers": {
+            "type": "array",
+            "items": {
+              "answer": "string"
+            }
+          },
+          "correctAnswer": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
