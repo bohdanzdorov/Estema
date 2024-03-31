@@ -98,7 +98,7 @@
                 }
             },
             "400": {
-                "description": "Invalid input was entered",
+                "description": "Incorrect user input",
                 "content": {
                 "application/json": {
                     "schema": {
@@ -161,7 +161,7 @@
                 }
             },
             "400": {
-                "description": "Invalid input was entered",
+                "description": "Incorrect user input",
                 "content": {
                 "application/json": {
                     "schema": {
@@ -228,7 +228,7 @@
                 }
             },
             "400": {
-                "description": "Invalid input was entered",
+                "description": "Incorrect user input",
                 "content": {
                 "application/json": {
                     "schema": {
@@ -369,7 +369,7 @@
                   }
                 },
                 "400": {
-                  "description": "Invalid ID supplied",
+                  "description": "Incorrect user input",
                   "content": {
                     "application/json": {
                       "schema": {

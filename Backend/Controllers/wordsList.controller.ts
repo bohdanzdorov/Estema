@@ -109,8 +109,6 @@ export class WordsListController {
         } catch (error) {
             if (error instanceof DatabaseException) {
                 res.status(error.statusCode).json({ success: false, message: error.message });
-            } else if (error instanceof ApiException) {
-                res.status(error.statusCode).json({ success: false, message: error.message });
             } else {
                 res.status(500).json({ success: false, message: 'Internal server error' });
             }
